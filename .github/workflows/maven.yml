@@ -35,4 +35,4 @@ jobs:
       if: ${{ always() }}
       with: 
         name: surefire-report-jdk-${{ matrix.java }}
-        path: '**/target/site'
+        path: /myproject/target/site
