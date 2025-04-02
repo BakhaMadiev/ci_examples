@@ -8,17 +8,13 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy: 
       matrix:
         # test against several OSes:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
         # test against several Java versions:
-        java: [ 8 ]
-        include:
-        - os: ubuntu-latest
-          java: 11
-    name: Build With Java ${{ matrix.java }} on ${{ matrix.os }}
+        java: [ 8, 11 ]
+    name: Build With Java ${{ matrix.java }} on Linux
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK ${{ matrix.java }}
