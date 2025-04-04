@@ -4,41 +4,16 @@ name: Java CI with Maven in Linux 1
 
 on:
   push:
-  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy: 
-      matrix:
-        # test against several OSes:
-        # test against several Java versions:
-        java: [ 8, 11 ]
-        include:
-        - java: 8
-          additional-maven-args: "-Pjacoco -DrepoToken=$COVERALLS_REPO_TOKEN -DpullRequest=${{ github.event.pull_request.number }} coveralls:report"
-        - java: 11
-    name: Build With Java ${{ matrix.java }} on Linux
+
+    name: Build With default Java
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK ${{ matrix.java }}
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.java }}
-    - name: Cache Maven packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2-
+    - name: Show Java version
+      run: java -version
     - name: Build with Maven
-      run: mvn -f myproject/pom.xml clean verify ${{matrix.additional-maven-args}}
-      env: 
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN}}
-      if: ${{ always() }}
-    - name: Archive JUnit Report
-      uses: actions/upload-artifact@v4
-      if: ${{ always() }}
-      with: 
-        name: surefire-report-jdk-${{ matrix.java }}
-        path: '**/target/site'
+      run: mvn -f myproject/pom.xml clean verify
