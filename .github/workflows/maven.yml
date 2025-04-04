@@ -1,6 +1,6 @@
 # This workflow will build a Java project with Maven
 
-name: Java CI with Maven in Linux
+name: Java CI with Maven in Linux 1
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
         java: [ 8, 11 ]
         include:
         - java: 8
-          additional-maven-args: "-Pjacoco -DrepoToken=$COVERALLS_REPO_TOKEN coveralls:report"
+          additional-maven-args: "-Pjacoco -DrepoToken=$COVERALLS_REPO_TOKEN -DpullRequest=${{ github.event.pull_request.number }} coveralls:report"
         - java: 11
     name: Build With Java ${{ matrix.java }} on Linux
     steps:
